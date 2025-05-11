@@ -18,7 +18,7 @@ const { getSession, commitSession, destroySession } =
       name: "__session",
 
       // all of these are optional
-      domain: "remix.run",
+      // domain: "remix.run",
       // Expires can also be set (although maxAge overrides it when used in combination).
       // Note that this method is NOT recommended as `new Date` creates only one date on each server deployment, not a dynamic date in the future!
       //
@@ -28,7 +28,7 @@ const { getSession, commitSession, destroySession } =
       path: "/",
       sameSite: "lax",
       secrets: [process.env.SESSION_SECRET],
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.NODE_ENV === "production",
     },
   });
 

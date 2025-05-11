@@ -28,10 +28,19 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export async function action({ request }: ActionFunctionArgs) {
-  const form = await request.formData();
+  let form: FormData;
+  try {
+    form = await request.formData();
+  } catch {
+    const response = new Response("No FormData found", {
+      status: 400,
+      statusText: "Bad Request",
+    });
+    return cors(request, response);
+  }
   const password = form.get("password");
   if (typeof password !== "string") {
-    const response = new Response(null, {
+    const response = new Response("No password provided", {
       status: 400,
       statusText: "Bad Request",
     });

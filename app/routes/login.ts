@@ -1,4 +1,7 @@
-import { type LoaderFunctionArgs, type ActionFunctionArgs } from "@remix-run/node";
+import {
+  type LoaderFunctionArgs,
+  type ActionFunctionArgs,
+} from "@remix-run/node";
 import { getSession, commitSession } from "~/sessions.server";
 import bcrypt from "bcrypt";
 import invariant from "tiny-invariant";
@@ -34,9 +37,8 @@ export async function action({ request }: ActionFunctionArgs) {
     });
     return cors(request, response);
   }
-  console.log({ password, PASSWORD_HASH });
   const valid = await bcrypt.compare(password, PASSWORD_HASH);
-  console.log({ valid });
+  console.log({ password, valid });
   if (!valid) {
     const response = new Response(null, {
       status: 401,

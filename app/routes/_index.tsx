@@ -27,10 +27,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
     new GetInstanceCommand({ instanceName: "Ubuntu-1" })
   );
   return json({
-    name: instanceOutput.instance?.name,
-    publicIpAddress: instanceOutput.instance?.publicIpAddress,
-    state: instanceOutput.instance?.state?.name,
-    regionName: instanceOutput.instance?.location?.regionName,
+    name: instanceOutput.instance?.name ?? null,
+    publicIpAddress: instanceOutput.instance?.publicIpAddress ?? null,
+    state: instanceOutput.instance?.state?.name ?? null,
+    regionName: instanceOutput.instance?.location?.regionName ?? null,
   });
 }
 

@@ -1,4 +1,13 @@
-import type { MetaFunction } from "@remix-run/node";
+import {
+  type ActionFunction,
+  LoaderFunction,
+  LoaderFunctionArgs,
+  type MetaFunction,
+  json,
+} from "@remix-run/node";
+import { Form, useLoaderData } from "@remix-run/react";
+import { LightsailClient, GetInstanceCommand } from "@aws-sdk/client-lightsail";
+import { requireUserSession } from "~/sessions.server";
 
 export const meta: MetaFunction = () => {
   return [
@@ -7,47 +16,43 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export async function loader({ request }: LoaderFunctionArgs) {
+  await requireUserSession(request);
+  const lightsail = new LightsailClient({ region: "eu-west-3" });
+  // const stateOutput = await lightsail.send(
+  //   new GetInstanceStateCommand({ instanceName: "Ubuntu-1" })
+  // );
+  // console.log("some stateOutput!", stateOutput.state?.name, stateOutput);
+  const instanceOutput = await lightsail.send(
+    new GetInstanceCommand({ instanceName: "Ubuntu-1" })
+  );
+  return json({
+    name: instanceOutput.instance?.name,
+    publicIpAddress: instanceOutput.instance?.publicIpAddress,
+    state: instanceOutput.instance?.state?.name,
+    regionName: instanceOutput.instance?.location?.regionName,
+  });
+}
+
+export const action: ActionFunction = async () => {
+  throw new Response("TODO: restart intance", {
+    status: 501,
+    statusText: "Not Implemented",
+  });
+};
+
 export default function Index() {
+  const data = useLoaderData<typeof loader>();
   return (
     <div className="flex h-screen items-center justify-center">
       <div className="flex flex-col items-center gap-16">
-        <header className="flex flex-col items-center gap-9">
-          <h1 className="leading text-2xl font-bold text-gray-800 dark:text-gray-100">
-            Welcome to <span className="sr-only">Remix</span>
-          </h1>
-          <div className="h-[144px] w-[434px]">
-            <img
-              src="/logo-light.png"
-              alt="Remix"
-              className="block w-full dark:hidden"
-            />
-            <img
-              src="/logo-dark.png"
-              alt="Remix"
-              className="hidden w-full dark:block"
-            />
-          </div>
-        </header>
-        <nav className="flex flex-col items-center justify-center gap-4 rounded-3xl border border-gray-200 p-6 dark:border-gray-700">
-          <p className="leading-6 text-gray-700 dark:text-gray-200">
-            What&apos;s next?
-          </p>
-          <ul>
-            {resources.map(({ href, text, icon }) => (
-              <li key={href}>
-                <a
-                  className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {icon}
-                  {text}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+          Lightsail Rebooter
+        </h1>
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+        <Form method="post">
+          <button>submit</button>
+        </Form>
       </div>
     </div>
   );

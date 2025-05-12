@@ -33,3 +33,11 @@ const { getSession, commitSession, destroySession } =
   });
 
 export { getSession, commitSession, destroySession };
+
+export async function requireUserSession(request: Request) {
+  const session = await getSession(request.headers.get("Cookie"));
+  if (!session.has("userId")) {
+    throw new Response(null, { status: 401, statusText: "Unauthorized" });
+  }
+  return session;
+}

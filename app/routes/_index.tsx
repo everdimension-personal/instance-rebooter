@@ -1,13 +1,13 @@
 import {
   type ActionFunction,
-  LoaderFunction,
-  LoaderFunctionArgs,
+  type LoaderFunctionArgs,
   type MetaFunction,
   json,
 } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import { LightsailClient, GetInstanceCommand } from "@aws-sdk/client-lightsail";
 import { requireUserSession } from "~/sessions.server";
+import { cors } from "~/cors";
 
 export const meta: MetaFunction = () => {
   return [
@@ -26,19 +26,21 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const instanceOutput = await lightsail.send(
     new GetInstanceCommand({ instanceName: "Ubuntu-1" })
   );
-  return json({
+  const response = json({
     name: instanceOutput.instance?.name ?? null,
     publicIpAddress: instanceOutput.instance?.publicIpAddress ?? null,
     state: instanceOutput.instance?.state?.name ?? null,
     regionName: instanceOutput.instance?.location?.regionName ?? null,
   });
+  return cors(request, response);
 }
 
-export const action: ActionFunction = async () => {
-  throw new Response("TODO: restart intance", {
+export const action: ActionFunction = async ({ request }) => {
+  const response = new Response("TODO: restart intance", {
     status: 501,
     statusText: "Not Implemented",
   });
+  return cors(request, response);
 };
 
 export default function Index() {

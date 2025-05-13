@@ -1,5 +1,6 @@
 import { createCookieSessionStorage } from "@remix-run/node"; // or cloudflare/deno
 import invariant from "tiny-invariant";
+import { cors } from "./cors";
 
 type SessionData = {
   userId: string;
@@ -37,7 +38,11 @@ export { getSession, commitSession, destroySession };
 export async function requireUserSession(request: Request) {
   const session = await getSession(request.headers.get("Cookie"));
   if (!session.has("userId")) {
-    throw new Response(null, { status: 401, statusText: "Unauthorized" });
+    const response = new Response(null, {
+      status: 401,
+      statusText: "Unauthorized",
+    });
+    throw cors(request, response);
   }
   return session;
 }

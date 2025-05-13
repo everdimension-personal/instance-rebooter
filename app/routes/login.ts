@@ -64,5 +64,4 @@ export async function action({ request }: ActionFunctionArgs) {
       headers: { "Set-Cookie": await commitSession(session) },
     })
   );
-  return null;
 }

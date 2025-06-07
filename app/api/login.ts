@@ -61,7 +61,13 @@ export async function action({ request }: ActionFunctionArgs) {
     request,
     new Response(null, {
       status: 200,
-      headers: { "Set-Cookie": await commitSession(session) },
+      headers: {
+        "Set-Cookie": await commitSession(session, {
+          maxAge: 60 * 10, // 10 minutes in seconds
+        }),
+      },
     })
   );
 }
+
+export const loginApi = { loader, action };

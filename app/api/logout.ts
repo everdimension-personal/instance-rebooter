@@ -25,3 +25,5 @@ export async function action({ request }: ActionFunctionArgs) {
   });
   return cors(request, response);
 }
+
+export const logoutApi = { loader, action };

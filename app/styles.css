@@ -1,0 +1,8 @@
+:root {
+  --link-1: #4c81ff;
+}
+
+input {
+  border: 1px solid;
+  padding-inline: 4px;
+}

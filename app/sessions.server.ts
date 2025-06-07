@@ -23,11 +23,15 @@ const { getSession, commitSession, destroySession } =
       // Expires can also be set (although maxAge overrides it when used in combination).
       // Note that this method is NOT recommended as `new Date` creates only one date on each server deployment, not a dynamic date in the future!
       //
-      expires: new Date(Date.now() + 60_000),
+      // expires: new Date(Date.now() + 60_000 * 5),
       httpOnly: true,
-      maxAge: 60,
+      // maxAge: 60,
       path: "/",
-      sameSite: "lax",
+
+      // we want 'none' for the api to be available from other origins (deliberately experimenting)
+      // but for local development it's easier to work with the default "lax"
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+
       secrets: [process.env.SESSION_SECRET],
       secure: process.env.NODE_ENV === "production",
     },

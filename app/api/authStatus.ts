@@ -24,3 +24,5 @@ export async function action({ request }: ActionFunctionArgs) {
   const authenticated = Boolean(session.get("userId"));
   return cors(request, json({ authenticated }));
 }
+
+export const authStatus = { loader, action };

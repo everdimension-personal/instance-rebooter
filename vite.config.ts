@@ -9,6 +9,9 @@ declare module "@remix-run/node" {
 }
 
 export default defineConfig({
+  optimizeDeps: {
+    exclude: ["@mapbox"], // https://stackoverflow.com/a/78494242
+  },
   plugins: [
     remix({
       future: {

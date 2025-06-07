@@ -1,5 +1,5 @@
 import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import { Form, useActionData, useNavigation } from "@remix-run/react";
 import { loginApi } from "~/api/login";
 
 export async function action(params: ActionFunctionArgs) {
@@ -15,6 +15,9 @@ export async function action(params: ActionFunctionArgs) {
 
 export default function Login() {
   const actionData = useActionData<typeof action>();
+  const navigation = useNavigation();
+  const isLoading =
+    navigation.state === "submitting" || navigation.state === "loading";
   return (
     <div className="flex flex-col items-center gap-8 [padding-top:40px]">
       <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
@@ -34,7 +37,9 @@ export default function Login() {
             </small>
           </div>
         ) : null}
-        <button style={{ color: "var(--link-1)" }}>Login</button>
+        <button style={{ color: "var(--link-1)" }} disabled={isLoading}>
+          {isLoading ? "Loading..." : "Login"}
+        </button>
       </Form>
     </div>
   );

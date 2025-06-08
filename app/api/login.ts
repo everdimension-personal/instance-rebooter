@@ -1,7 +1,4 @@
-import {
-  type LoaderFunctionArgs,
-  type ActionFunctionArgs,
-} from "@remix-run/node";
+import { type LoaderFunctionArgs, type ActionFunctionArgs } from "react-router";
 import { getSession, commitSession } from "~/sessions.server";
 import bcrypt from "bcrypt";
 import invariant from "tiny-invariant";

@@ -1,9 +1,5 @@
-import {
-  type LoaderFunctionArgs,
-  redirect,
-  type MetaFunction,
-} from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { type LoaderFunctionArgs, redirect, type MetaFunction } from "react-router";
+import { useLoaderData } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import { lightsailInstanceApi } from "~/api/lightsail-instance";
 

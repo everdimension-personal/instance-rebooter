@@ -1,4 +1,4 @@
-import { createCookieSessionStorage } from "@remix-run/node"; // or cloudflare/deno
+import { createCookieSessionStorage } from "react-router"; // or cloudflare/deno
 import invariant from "tiny-invariant";
 import { cors } from "./cors";
 

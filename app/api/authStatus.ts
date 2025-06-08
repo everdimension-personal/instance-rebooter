@@ -1,8 +1,4 @@
-import {
-  type ActionFunctionArgs,
-  json,
-  type LoaderFunctionArgs,
-} from "@remix-run/node";
+import { type ActionFunctionArgs, type LoaderFunctionArgs } from "react-router";
 import { cors } from "~/cors";
 import { getSession } from "~/sessions.server";
 
@@ -22,7 +18,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export async function action({ request }: ActionFunctionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
   const authenticated = Boolean(session.get("userId"));
-  return cors(request, json({ authenticated }));
+  return cors(request, new Response(JSON.stringify({ authenticated })));
 }
 
 export const authStatus = { loader, action };

@@ -1,4 +1,4 @@
-import { ActionFunction } from "@remix-run/node";
+import { ActionFunction } from "react-router";
 import { lightsailInstanceApi } from "~/api/lightsail-instance";
 
 export const action: ActionFunction = async (params) => {

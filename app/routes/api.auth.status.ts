@@ -1,7 +1,4 @@
-import {
-  type ActionFunctionArgs,
-  type LoaderFunctionArgs,
-} from "@remix-run/node";
+import { type ActionFunctionArgs, type LoaderFunctionArgs } from "react-router";
 import * as authStatus from "~/api/authStatus";
 
 export async function loader(params: LoaderFunctionArgs) {

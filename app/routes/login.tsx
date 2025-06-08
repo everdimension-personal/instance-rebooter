@@ -1,5 +1,6 @@
-import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
-import { Form, useActionData, useNavigation } from "@remix-run/react";
+import { type ActionFunctionArgs, data, redirect } from "react-router";
+import { Link } from "react-router";
+import { Form, useActionData, useNavigation } from "react-router";
 import { loginApi } from "~/api/login";
 
 export async function action(params: ActionFunctionArgs) {
@@ -9,7 +10,7 @@ export async function action(params: ActionFunctionArgs) {
     const next = new URL(params.request.url).searchParams.get("next") || "/";
     return redirect(next, { headers: response.headers });
   } else {
-    return json({ error: response.statusText }, response);
+    return data({ error: response.statusText }, response);
   }
 }
 
@@ -28,6 +29,7 @@ export default function Login() {
           type="password"
           name="password"
           required={true}
+          autoComplete="current-password"
           placeholder="password"
         />
         {actionData?.error ? (

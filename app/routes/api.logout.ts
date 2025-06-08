@@ -1,7 +1,4 @@
-import {
-  type LoaderFunctionArgs,
-  type ActionFunctionArgs,
-} from "@remix-run/node";
+import { type LoaderFunctionArgs, type ActionFunctionArgs } from "react-router";
 import { logoutApi } from "~/api/logout";
 
 export async function loader(params: LoaderFunctionArgs) {

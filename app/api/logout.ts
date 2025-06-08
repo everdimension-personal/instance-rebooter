@@ -1,7 +1,4 @@
-import {
-  type LoaderFunctionArgs,
-  type ActionFunctionArgs,
-} from "@remix-run/node";
+import { type LoaderFunctionArgs, type ActionFunctionArgs } from "react-router";
 import { cors } from "~/cors";
 import { destroySession, getSession } from "~/sessions.server";
 

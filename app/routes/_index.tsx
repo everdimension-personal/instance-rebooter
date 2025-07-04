@@ -1,7 +1,11 @@
-import { type LoaderFunctionArgs, redirect, type MetaFunction } from "react-router";
-import { useLoaderData } from "react-router";
+import {
+  type LoaderFunctionArgs,
+  redirect,
+  type MetaFunction,
+} from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import { lightsailInstanceApi } from "~/api/lightsail-instance";
+import type { Route } from "./+types/_index";
 
 export async function loader(params: LoaderFunctionArgs) {
   try {
@@ -20,8 +24,7 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export default function Index() {
-  const data = useLoaderData<typeof loader>();
+export default function Index({ loaderData }: Route.ComponentProps) {
   const rebootMutation = useMutation({
     mutationFn: async () => {
       const res = await fetch("/api/instance/reboot", { method: "POST" });
@@ -37,7 +40,7 @@ export default function Index() {
       <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
         Lightsail Rebooter
       </h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <pre>{JSON.stringify(loaderData, null, 2)}</pre>
       {rebootMutation.isError ? (
         <div style={{ textAlign: "center" }}>
           <small>
